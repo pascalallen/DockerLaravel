@@ -1,0 +1,32 @@
+name: Docker Compose
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ master, stage, develop ]
+
+jobs:
+  docker-compose-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build or rebuild services
+        env:
+          DB_DATABASE: dockerlaravel
+          DB_PASSWORD: password
+          DB_USERNAME: dockerlaravel_user
+        run: docker-compose build
+
+      - name: Create and start containers
+        env:
+          DB_DATABASE: dockerlaravel
+          DB_PASSWORD: password
+          DB_USERNAME: dockerlaravel_user
+        run: docker-compose up -d
+
+      - name: Stop and remove containers, networks, images, and volumes
+        run: docker-compose down

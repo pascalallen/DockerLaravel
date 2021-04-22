@@ -1,0 +1,21 @@
+name: NPM
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ master, stage, develop ]
+
+jobs:
+  npm-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Linter
+        run: npm run lint

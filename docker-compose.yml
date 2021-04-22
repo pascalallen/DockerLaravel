@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+    container_name: dockerlaravel-app
+    volumes:
+      - .:/var/www/app:cached
+    networks:
+      - dockerlaravel
+
+  db:
+    image: mysql:5.7
+    container_name: dockerlaravel-db
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./etc/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - dockerlaravel
+
+  nginx:
+    build:
+      context: ./etc/nginx
+    container_name: dockerlaravel-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/var/www/app:cached
+      - ./etc/nginx/certs:/etc/nginx/certs
+    networks:
+      - dockerlaravel
+
+networks:
+  dockerlaravel:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
