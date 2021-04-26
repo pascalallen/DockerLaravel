@@ -24,8 +24,7 @@ Docker containers for MySQL, NGINX, and PHP-FPM. Also ships with:
 
 ### Clone Repository
 
-$ `cd <projects-parent-directory>`
-$ `git clone https://github.com/pascalallen/DockerLaravel.git`
+$ `cd <projects-parent-directory> && git clone https://github.com/pascalallen/DockerLaravel.git`
 
 ### Create Environment file
 
