@@ -35,12 +35,12 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip sockets
 WORKDIR /var/www/app
 
 # Copy project php.ini file to container php.ini
-COPY ./etc/fpm/conf/php.ini /usr/local/etc/php/php.ini
+COPY ./conf/php.ini /usr/local/etc/php/php.ini
 
 # Remove www.conf file in container
 RUN rm /usr/local/etc/php-fpm.d/www.conf
 # Copy project www.conf file to container www.conf
-COPY ./etc/fpm/conf/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./conf/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Install Node.js
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash

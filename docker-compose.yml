@@ -3,7 +3,7 @@ version: "3.9"
 services:
   app:
     build:
-      context: .
+      context: ./etc/fpm
     container_name: dockerlaravel-app
     volumes:
       - .:/var/www/app:cached
@@ -11,7 +11,8 @@ services:
       - dockerlaravel
 
   db:
-    image: mysql:5.7
+    build:
+      context: ./etc/mysql
     container_name: dockerlaravel-db
     ports:
       - 3307:3306
