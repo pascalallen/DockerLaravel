@@ -1,16 +1,17 @@
-# Sample Docker Laravel App
+# Boilerplate Docker PHP Web App
 
 ![NPM Build Status](https://github.com/pascalallen/DockerLaravel/workflows/NPM/badge.svg)
 ![Docker Compose Build Status](https://github.com/pascalallen/DockerLaravel/workflows/Docker%20Compose/badge.svg)
 ![Laravel Build Status](https://github.com/pascalallen/DockerLaravel/workflows/Laravel/badge.svg)
 
-Fully containerized sample web application on PHP version 8 with a Laravel API backend, and a React + SASS frontend. 
+Fully containerized boilerplate web application on PHP version 8 with a Laravel API backend, and a React + SASS frontend. 
 Docker containers for MySQL, NGINX, and PHP-FPM. Also ships with:
 - Pipelines (GitHub Actions) to fully test the application
 - Google Two-Factor Authentication
 - Instructions to create SSL certificates for automatic HTTPS redirect
 - Slack notifier
 - Papertrail logging
+- Roles and Permissions
 - Sample React components
 - Unit tests
 - Authentication
