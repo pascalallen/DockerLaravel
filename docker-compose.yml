@@ -40,6 +40,15 @@ services:
     networks:
       - dockerlaravel
 
+  worker:
+    build:
+      context: ./etc/worker
+    container_name: dockerlaravel-worker
+    volumes:
+      - .:/var/www/app:cached
+    networks:
+      - dockerlaravel
+
 networks:
   dockerlaravel:
     driver: bridge

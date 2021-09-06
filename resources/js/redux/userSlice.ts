@@ -43,64 +43,72 @@ const { authenticateSuccess, updateSuccess, logoutSuccess } = userSlice.actions;
 
 export default userSlice.reducer;
 
-export const register = (params: { name: string; email: string; password: string }): AppThunk => async (
-  dispatch
-): Promise<void> => {
-  try {
-    await auth.initializeCsrfProtection().then(async () => {
-      const res = await auth.register(params);
+export const register =
+  (params: { name: string; email: string; password: string }): AppThunk =>
+  async (dispatch): Promise<void> => {
+    try {
+      await auth.initializeCsrfProtection().then(async () => {
+        const res = await auth.register(params);
+        dispatch(authenticateSuccess(res));
+      });
+    } catch (err) {
+      await auth.logout();
+      throw err;
+    }
+  };
+
+export const login =
+  (params: { email: string; password: string }): AppThunk =>
+  async (dispatch): Promise<void> => {
+    try {
+      await auth.initializeCsrfProtection().then(async () => {
+        const res = await auth.login(params);
+        dispatch(authenticateSuccess(res));
+      });
+    } catch (err) {
+      await auth.logout();
+      throw err;
+    }
+  };
+
+export const authenticate =
+  (params: { one_time_password: string }): AppThunk =>
+  async (dispatch): Promise<void> => {
+    try {
+      const res = await auth.multifactorAuthentication(params);
       dispatch(authenticateSuccess(res));
-    });
-  } catch (err) {
-    await auth.logout();
-    throw err;
-  }
-};
+    } catch (err) {
+      await auth.logout();
+      throw err;
+    }
+  };
 
-export const login = (params: { email: string; password: string }): AppThunk => async (dispatch): Promise<void> => {
-  try {
-    await auth.initializeCsrfProtection().then(async () => {
-      const res = await auth.login(params);
-      dispatch(authenticateSuccess(res));
-    });
-  } catch (err) {
-    await auth.logout();
-    throw err;
-  }
-};
+export const update =
+  (
+    params: {
+      name: string;
+      password?: string;
+      password_confirmation?: string;
+      google2fa_secret?: string;
+    },
+    id: number
+  ): AppThunk =>
+  async (dispatch): Promise<void> => {
+    try {
+      const res = await userApi.update(params, id);
+      dispatch(updateSuccess(res));
+    } catch (err) {
+      throw err;
+    }
+  };
 
-export const authenticate = (params: { one_time_password: string }): AppThunk => async (dispatch): Promise<void> => {
-  try {
-    const res = await auth.multifactorAuthentication(params);
-    dispatch(authenticateSuccess(res));
-  } catch (err) {
-    await auth.logout();
-    throw err;
-  }
-};
-
-export const update = (
-  params: {
-    name: string;
-    password?: string;
-    password_confirmation?: string;
-    google2fa_secret?: string;
-  },
-  id: number
-): AppThunk => async (dispatch): Promise<void> => {
-  try {
-    const res = await userApi.update(params, id);
-    dispatch(updateSuccess(res));
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const logout = (): AppThunk => async (dispatch): Promise<void> => {
-  try {
-    await auth.logout();
-  } finally {
-    // on logout, reset to initial state
-    dispatch(logoutSuccess());
-  }
-};
+export const logout =
+  (): AppThunk =>
+  async (dispatch): Promise<void> => {
+    try {
+      await auth.logout();
+    } finally {
+      // on logout, reset to initial state
+      dispatch(logoutSuccess());
+    }
+  };
