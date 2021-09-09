@@ -7,7 +7,7 @@ import { useToasts } from 'react-toast-notifications';
 import { Helmet } from 'react-helmet-async';
 import { RootState } from '@/types/redux';
 import { register } from '@/redux/userSlice';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import Step1 from './step1/Step1';
 import Step2 from './step2/Step2';
 import Step3 from './step3/Step3';
@@ -46,7 +46,7 @@ const Register = (): React.ReactElement => {
 
   useEffect(() => {
     if (!_.isEmpty(user.access_token)) {
-      history.push(routerPath.HOME);
+      history.push(Path.HOME);
     }
   }, [user, name, email, password]);
 
@@ -113,7 +113,7 @@ const Register = (): React.ReactElement => {
 
   const handleCancel = (): void => {
     resetForm();
-    return history.push(routerPath.LOGIN);
+    return history.push(Path.LOGIN);
   };
 
   const formName = 'register';
@@ -121,10 +121,10 @@ const Register = (): React.ReactElement => {
   const renderRoutes = (): React.ReactElement => {
     return (
       <Switch>
-        <Route exact path={routerPath.REGISTER}>
+        <Route exact path={Path.REGISTER}>
           <Step1 formName={formName} errors={errors} name={name} onSetName={handleSetName} onCancel={handleCancel} />
         </Route>
-        <Route path={routerPath.REGISTER_STEP2}>
+        <Route path={Path.REGISTER_STEP2}>
           <Step2
             formName={formName}
             errors={errors}
@@ -133,7 +133,7 @@ const Register = (): React.ReactElement => {
             onCancel={handleCancel}
           />
         </Route>
-        <Route path={routerPath.REGISTER_STEP3}>
+        <Route path={Path.REGISTER_STEP3}>
           <Step3
             isSubmitting={isSubmitting}
             formName={formName}
