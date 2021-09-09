@@ -5,14 +5,14 @@
 ![Laravel Build Status](https://github.com/pascalallen/DockerLaravel/workflows/Laravel/badge.svg)
 
 Fully containerized boilerplate web application on PHP version 8 with a Laravel API backend, and a React + SASS frontend. 
-Docker containers for MySQL, NGINX, PHP-FPM, and a worker queue. Also ships with:
+Docker containers for MySQL, NGINX, PHP-FPM, and a Worker Queue. Also ships with:
 - Pipelines (GitHub Actions) to fully test the application
 - Google Two-Factor Authentication
 - Instructions to create SSL certificates for automatic HTTPS redirect
 - Slack notifier
 - Papertrail logging
 - Amazon SQS integration
-- Sample job for queue
+- Sample job for worker queue
 - Roles and Permissions
 - Sample React components
 - Unit tests
@@ -126,10 +126,10 @@ PAPERTRAIL_URL=null
 PAPERTRAIL_PORT=null
 ```
 
-#### Amazon SQS
+#### Amazon SQS Worker Queue
 
-This application uses Amazon SQS to create queued jobs, you will need to add your AWS credentials to the `.env` file.
-This configuration assumes that you have already created a queue in AWS with the name of `jobs`:
+This application uses Amazon SQS as it's Worker Queue to create queued jobs. You will need to add your AWS credentials 
+to the `.env` file. This configuration assumes that you have already created a queue in AWS with the name of `jobs`:
 
 ```
 QUEUE_CONNECTION=sqs
