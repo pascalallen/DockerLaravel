@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ThunkAction } from 'redux-thunk';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import { logout } from '@/redux/userSlice';
 import { RootState } from '@/types/redux';
 
@@ -17,10 +17,10 @@ const Navbar = (): React.ReactElement => {
     <nav className="navbar navbar-expand-lg navbar-light bg-gray-100 shadow">
       <a
         className="navbar-brand"
-        href={routerPath.HOME}
+        href={Path.HOME}
         onClick={(event): void => {
           event.preventDefault();
-          history.push(routerPath.HOME);
+          history.push(Path.HOME);
         }}>
         Logo img here
       </a>
@@ -39,11 +39,11 @@ const Navbar = (): React.ReactElement => {
           <li className="nav-item">
             <a
               id="nav-link-1"
-              className={classnames('nav-link', location.pathname === routerPath.HOME && 'active')}
-              href={routerPath.HOME}
+              className={classnames('nav-link', location.pathname === Path.HOME && 'active')}
+              href={Path.HOME}
               onClick={(event): void => {
                 event.preventDefault();
-                history.push(routerPath.HOME);
+                history.push(Path.HOME);
               }}>
               Home
             </a>
@@ -51,11 +51,11 @@ const Navbar = (): React.ReactElement => {
           <li className="nav-item">
             <a
               id="nav-link-2"
-              className={classnames('nav-link', location.pathname === routerPath.ACCOUNT && 'active')}
-              href={routerPath.ACCOUNT}
+              className={classnames('nav-link', location.pathname === Path.ACCOUNT && 'active')}
+              href={Path.ACCOUNT}
               onClick={(event): void => {
                 event.preventDefault();
-                history.push(routerPath.ACCOUNT);
+                history.push(Path.ACCOUNT);
               }}>
               Account
             </a>

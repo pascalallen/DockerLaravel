@@ -51,7 +51,7 @@ const DeleteAccountModal = (props: Props): React.ReactElement => {
       addToast('Account deleted successfully!', { appearance: 'success', autoDismiss: true });
       setIsDeleting(initialState.isDeleting);
       onClose();
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.status === 401 && error.response.statusText === 'Unauthorized') {
         await dispatch(logout());
       }

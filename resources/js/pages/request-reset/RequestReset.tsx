@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { RootState } from '@/types/redux';
 import { AnyObject } from '@/types/common';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import auth from '@/api/auth';
 import Input from '@/components/Input/Input';
 
@@ -36,7 +36,7 @@ const RequestReset = (): React.ReactElement => {
 
   useEffect(() => {
     if (!_.isEmpty(user.access_token)) {
-      history.push(routerPath.HOME);
+      history.push(Path.HOME);
     }
   }, [user]);
 
@@ -48,7 +48,7 @@ const RequestReset = (): React.ReactElement => {
         appearance: 'success'
       });
       setIsSubmitting(initialState.isSubmitting);
-    } catch (err) {
+    } catch (err: any) {
       setErrors(err.response.data.errors);
       addToast(err.response.data.message, { appearance: 'error' });
       setIsSubmitting(initialState.isSubmitting);
@@ -96,10 +96,10 @@ const RequestReset = (): React.ReactElement => {
             </button>
             <a
               className="btn btn-link"
-              href={routerPath.LOGIN}
+              href={Path.LOGIN}
               onClick={(event): void => {
                 event.preventDefault();
-                history.push(routerPath.LOGIN);
+                history.push(Path.LOGIN);
               }}>
               Cancel
             </a>

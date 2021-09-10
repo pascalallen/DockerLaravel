@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import Input from '@/components/Input/Input';
 
 type Props = {
@@ -20,7 +20,7 @@ const Step2 = (props: Props): React.ReactElement => {
   const history = useHistory();
 
   const onNextStep = (): void => {
-    history.push(routerPath.REGISTER_STEP3);
+    history.push(Path.REGISTER_STEP3);
   };
 
   const disabled = _.size(email) <= 0 || !_.isString(email) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
