@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-const listToMap = (array: string[]): {[key: string]: string} => {
-  const hash: {[key: string]: string} = {};
+const listToMap = (array: string[]): { [key: string]: string } => {
+  const hash: { [key: string]: string } = {};
 
   _.each(array, item => {
     hash[item] = item;
@@ -16,7 +16,7 @@ type QueryParamsObject = {
     | boolean
     | string
     | string[]
-    | {[key: string]: number | boolean | string | string[] | undefined | null}
+    | { [key: string]: number | boolean | string | string[] | undefined | null }
     | undefined
     | null;
 };

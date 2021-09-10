@@ -53,7 +53,7 @@ const SetPassword = (): React.ReactElement => {
       addToast(res.message, { appearance: 'success' });
       setIsSubmitting(initialState.isSubmitting);
       return history.push(Path.LOGIN);
-    } catch (err) {
+    } catch (err: any) {
       setErrors(err.response.data.errors);
       addToast(err.response.data.message, { appearance: 'error', autoDismiss: true });
       setIsSubmitting(initialState.isSubmitting);

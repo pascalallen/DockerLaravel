@@ -62,7 +62,7 @@ const Account = (): React.ReactElement => {
           const res = await google2fa.getQRCode();
           setQRCode(res.qr_code);
           setGoogle2faSecret(res.google2fa_secret);
-        } catch (error) {
+        } catch (error: any) {
           if (error.response.status === 401 && error.response.statusText === 'Unauthorized') {
             await dispatch(logout());
           }
@@ -107,7 +107,7 @@ const Account = (): React.ReactElement => {
       );
       addToast('Account updated successfully!', { appearance: 'success', autoDismiss: true });
       setIsSubmitting(initialState.isSubmitting);
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.status === 401 && error.response.statusText === 'Unauthorized') {
         await dispatch(logout());
       }

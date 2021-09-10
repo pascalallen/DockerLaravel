@@ -40,7 +40,7 @@ const Authenticate = (): React.ReactElement => {
     try {
       await dispatch(authenticate({ one_time_password: oneTimePassword }));
       setIsSubmitting(initialState.isSubmitting);
-    } catch (err) {
+    } catch (err: any) {
       setErrors(err.response.data.errors);
       addToast(err.response.data.message, { appearance: 'error' });
       setIsSubmitting(initialState.isSubmitting);
