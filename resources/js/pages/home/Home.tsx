@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { RootState } from '@/types/redux';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 
 const Home = (): React.ReactElement => {
   const history = useHistory();
@@ -12,7 +12,7 @@ const Home = (): React.ReactElement => {
 
   useEffect(() => {
     if (_.isEmpty(user.access_token)) {
-      history.push(routerPath.LOGIN);
+      history.push(Path.LOGIN);
     }
   }, [user]);
 

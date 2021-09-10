@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet-async';
 import { RootState } from '@/types/redux';
 import { AnyObject } from '@/types/common';
 import { login } from '@/redux/userSlice';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import auth from '@/api/auth';
 import Input from '@/components/Input/Input';
 
@@ -40,9 +40,11 @@ const Login = (): React.ReactElement => {
   const [errors, setErrors] = useState(initialState.errors);
   const [isSubmitting, setIsSubmitting] = useState(initialState.isSubmitting);
 
+  const formName = 'login';
+
   useEffect(() => {
     if (!_.isEmpty(user.access_token)) {
-      history.push(routerPath.HOME);
+      history.push(Path.HOME);
     }
   }, [user]);
 
@@ -54,19 +56,17 @@ const Login = (): React.ReactElement => {
         await auth.initializeCsrfProtection().then(async () => {
           await auth.login({ email, password });
         });
-        history.push(routerPath.AUTHENTICATE);
+        history.push(Path.AUTHENTICATE);
       } else {
         await dispatch(login({ email, password }));
       }
       setIsSubmitting(initialState.isSubmitting);
-    } catch (err) {
+    } catch (err: any) {
       setErrors(err.response.data.errors);
       addToast(err.response.data.message, { appearance: 'error' });
       setIsSubmitting(initialState.isSubmitting);
     }
   };
-
-  const formName = 'login';
 
   return (
     <div className="container">
@@ -121,10 +121,10 @@ const Login = (): React.ReactElement => {
             </button>
             <a
               className="btn btn-link float-right"
-              href={routerPath.REQUEST_RESET}
+              href={Path.REQUEST_RESET}
               onClick={(event): void => {
                 event.preventDefault();
-                history.push(routerPath.REQUEST_RESET);
+                history.push(Path.REQUEST_RESET);
               }}
               role="button"
               tabIndex={4}>
@@ -141,10 +141,10 @@ const Login = (): React.ReactElement => {
           <div className="text-center mt-5">
             <a
               className="btn btn-secondary"
-              href={routerPath.REGISTER}
+              href={Path.REGISTER}
               onClick={(event): void => {
                 event.preventDefault();
-                history.push(routerPath.REGISTER);
+                history.push(Path.REGISTER);
               }}
               role="button"
               tabIndex={4}>

@@ -6,7 +6,7 @@ import { useToasts } from 'react-toast-notifications';
 import { Helmet } from 'react-helmet-async';
 import { AnyObject } from '@/types/common';
 import { useMatch, useQuery } from '@/lib/customHooks';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import auth from '@/api/auth';
 import Input from '@/components/Input/Input';
 
@@ -52,8 +52,8 @@ const SetPassword = (): React.ReactElement => {
       });
       addToast(res.message, { appearance: 'success' });
       setIsSubmitting(initialState.isSubmitting);
-      return history.push(routerPath.LOGIN);
-    } catch (err) {
+      return history.push(Path.LOGIN);
+    } catch (err: any) {
       setErrors(err.response.data.errors);
       addToast(err.response.data.message, { appearance: 'error', autoDismiss: true });
       setIsSubmitting(initialState.isSubmitting);

@@ -7,7 +7,7 @@ import { useToasts } from 'react-toast-notifications';
 import { Helmet } from 'react-helmet-async';
 import { AnyObject } from '@/types/common';
 import { RootState } from '@/types/redux';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import { authenticate } from '@/redux/userSlice';
 import Input from '@/components/Input/Input';
 
@@ -40,18 +40,18 @@ const Authenticate = (): React.ReactElement => {
     try {
       await dispatch(authenticate({ one_time_password: oneTimePassword }));
       setIsSubmitting(initialState.isSubmitting);
-    } catch (err) {
+    } catch (err: any) {
       setErrors(err.response.data.errors);
       addToast(err.response.data.message, { appearance: 'error' });
       setIsSubmitting(initialState.isSubmitting);
-      history.push(routerPath.LOGIN);
+      history.push(Path.LOGIN);
     }
   };
 
   useEffect(() => {
     if (!_.isEmpty(user.access_token)) {
       setIsSubmitting(initialState.isSubmitting);
-      history.push(routerPath.HOME);
+      history.push(Path.HOME);
     }
   }, [user]);
 
