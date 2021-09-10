@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { RootState } from '@/types/redux';
 import { update, logout } from '@/redux/userSlice';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import google2fa from '@/api/google2fa';
 import Input from '@/components/Input/Input';
 import Select from '@/components/Select/Select';
@@ -51,7 +51,7 @@ const Account = (): React.ReactElement => {
 
   useEffect(() => {
     if (_.isEmpty(user.access_token)) {
-      history.push(routerPath.LOGIN);
+      history.push(Path.LOGIN);
     }
   }, [user]);
 
@@ -62,7 +62,7 @@ const Account = (): React.ReactElement => {
           const res = await google2fa.getQRCode();
           setQRCode(res.qr_code);
           setGoogle2faSecret(res.google2fa_secret);
-        } catch (error) {
+        } catch (error: any) {
           if (error.response.status === 401 && error.response.statusText === 'Unauthorized') {
             await dispatch(logout());
           }
@@ -107,7 +107,7 @@ const Account = (): React.ReactElement => {
       );
       addToast('Account updated successfully!', { appearance: 'success', autoDismiss: true });
       setIsSubmitting(initialState.isSubmitting);
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.status === 401 && error.response.statusText === 'Unauthorized') {
         await dispatch(logout());
       }

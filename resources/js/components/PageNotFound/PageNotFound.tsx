@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 
 const PageNotFound = (): React.ReactElement => {
   const history = useHistory();
@@ -16,10 +16,10 @@ const PageNotFound = (): React.ReactElement => {
           <h4>404 | Page Not Found</h4>
           <a
             className="btn btn-primary mt-5"
-            href={routerPath.HOME}
+            href={Path.HOME}
             onClick={(event): void => {
               event.preventDefault();
-              history.push(routerPath.HOME);
+              history.push(Path.HOME);
             }}
             role="button"
             tabIndex={1}>

@@ -4,33 +4,47 @@
 
 import { DependencyList, EffectCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useRouteMatch, useHistory } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 import HttpStatus from 'http-status-codes';
 import { AnyObject } from '@/types/common';
 import { ApiError } from '@/types/errors';
-import { useToasts } from 'react-toast-notifications';
-import { routerPath } from '@/router/common';
+import eventDispatcher from '@/lib/eventDispatcher/eventDispatcher';
+import Path from '@/router/Path';
 
 export const useQuery = (): URLSearchParams => {
   return new URLSearchParams(useLocation().search);
 };
 
-type MatchObject = {
-  path: string;
-  url: string;
-  isExact: boolean;
-  params: AnyObject;
+export const useEventListener = (
+  eventName: string,
+  callback: (messageId: string, data?: { [key: string]: any }) => void,
+  deps?: DependencyList
+) => {
+  let listenerId: string;
+
+  useEffect(() => {
+    if (listenerId) {
+      eventDispatcher.detach(eventName, listenerId);
+    }
+
+    listenerId = eventDispatcher.attach(eventName, callback);
+
+    return () => {
+      eventDispatcher.detach(eventName, listenerId);
+    };
+  }, [deps]);
 };
 
-export const useMatch = (): MatchObject => useRouteMatch();
+type Destructor = () => void;
 
 export const useDidUpdateEffect = (effect: EffectCallback, deps?: DependencyList): void => {
   const didMountRef = useRef(false);
 
-  useEffect(() => {
-    if (didMountRef.current) {
-      effect();
-    } else {
+  useEffect((): void | Destructor => {
+    if (!didMountRef.current) {
       didMountRef.current = true;
+    } else {
+      return effect();
     }
   }, deps);
 };
@@ -47,12 +61,14 @@ type AsyncUseEffectActions<Data> = {
 export const asyncUseEffect = <Data>(actions: AsyncUseEffectActions<Data>, deps?: DependencyList): void => {
   const { predicate, run, onSuccess, onError, onFinally, onUnmount } = actions;
   let mounted = true;
+
   useEffect((): VoidFunction => {
     let continueRun = true;
     if (predicate && mounted) {
       continueRun = predicate();
     }
-    const runAsyncEffect = async (): Promise<void> => {
+
+    const runAsyncEffect = async () => {
       try {
         const data = await run();
         if (onSuccess && mounted) {
@@ -68,9 +84,11 @@ export const asyncUseEffect = <Data>(actions: AsyncUseEffectActions<Data>, deps?
         }
       }
     };
+
     if (continueRun) {
       runAsyncEffect();
     }
+
     return (): void => {
       mounted = false;
       if (onUnmount) {
@@ -92,6 +110,7 @@ type ApiErrorHandler = (error: ApiError, message: string, options?: ApiErrorHand
 export const useErrorHandler = (): { handleApiError: ApiErrorHandler } => {
   const history = useHistory();
   const { addToast } = useToasts();
+
   return {
     handleApiError: (error: ApiError, message: string, options?: ApiErrorHandlerOptions): void => {
       switch (error.status) {
@@ -99,14 +118,13 @@ export const useErrorHandler = (): { handleApiError: ApiErrorHandler } => {
           if (options?.onUnauthorized) {
             return options.onUnauthorized();
           }
-          return history.push(routerPath.LOGIN);
+          return history.push(Path.LOGIN);
         }
         case HttpStatus.FORBIDDEN: {
           if (options?.onForbidden) {
             return options.onForbidden();
           }
-          // TODO: may want to create FORBIDDEN route/page
-          return history.push(routerPath.LOGIN);
+          return history.push(Path.FORBIDDEN);
         }
         case HttpStatus.BAD_REQUEST: {
           if (options?.onBadRequest) {
@@ -124,6 +142,15 @@ export const useErrorHandler = (): { handleApiError: ApiErrorHandler } => {
     }
   };
 };
+
+type MatchObject = {
+  path: string;
+  url: string;
+  isExact: boolean;
+  params: AnyObject;
+};
+
+export const useMatch = (): MatchObject => useRouteMatch();
 
 export type UseScrollState = {
   x: number;

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { routerPath } from '@/router/common';
+import Path from '@/router/Path';
 import { RootState } from '@/types/redux';
 import Account from '@/pages/account/Account';
 import Authenticate from '@/pages/authenticate/Authenticate';
@@ -20,7 +20,7 @@ const Router = (): React.ReactElement => {
 
   return (
     <Switch>
-      <Route exact path={routerPath.HOME}>
+      <Route exact path={Path.HOME}>
         {_.isEmpty(user.access_token) ? (
           <Login />
         ) : (
@@ -30,26 +30,26 @@ const Router = (): React.ReactElement => {
           </React.Fragment>
         )}
       </Route>
-      <Route path={routerPath.ACCOUNT}>
+      <Route path={Path.ACCOUNT}>
         <Navbar />
         <Account />
       </Route>
-      <Route path={routerPath.LOGIN}>
+      <Route path={Path.LOGIN}>
         <Login />
       </Route>
-      <Route exact path={routerPath.REQUEST_RESET}>
+      <Route exact path={Path.REQUEST_RESET}>
         <RequestReset />
       </Route>
-      <Route path={routerPath.RESET_PASSWORD}>
+      <Route path={Path.RESET_PASSWORD}>
         <SetPassword />
       </Route>
-      <Route path={routerPath.REGISTER}>
+      <Route path={Path.REGISTER}>
         <Register />
       </Route>
-      <Route path={routerPath.AUTHENTICATE}>
+      <Route path={Path.AUTHENTICATE}>
         <Authenticate />
       </Route>
-      <Route path={routerPath.PRIVACY_POLICY}>
+      <Route path={Path.PRIVACY_POLICY}>
         <PrivacyPolicy />
       </Route>
       <Route>
