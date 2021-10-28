@@ -3,19 +3,20 @@ import classnames from 'classnames';
 
 type Props = {
   formName: string;
-  type: 'text' | 'password' | 'email' | 'color' | 'date' | 'number' | 'search' | 'tel' | 'file' | 'url';
   name: string;
+  type: 'text' | 'password' | 'email' | 'color' | 'date' | 'number' | 'search' | 'tel' | 'file' | 'url';
   className?: string;
-  placeholder?: string;
   label?: string;
   isValid?: boolean;
-  autoFocus?: boolean;
+  placeholder?: string;
   required?: boolean;
   tabIndex?: number;
-  disabled?: boolean;
   error?: string;
+  autoFocus?: boolean;
+  disabled?: boolean;
   defaultValue?: string | number | string[];
   multiple?: boolean;
+  id?: string;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
@@ -23,20 +24,20 @@ type Props = {
 const Input = (props: Props): React.ReactElement => {
   const {
     formName,
-    type,
     name,
-    // Optional props
+    type,
     className = '',
-    placeholder = '',
     label = '',
     isValid = true,
-    autoFocus = false,
+    placeholder = '',
     required = false,
     tabIndex = 0,
-    disabled = false,
     error = '',
+    autoFocus = false,
+    disabled = false,
     defaultValue = '',
     multiple = false,
+    id = `${formName}-${name.replace('_', '-')}`,
     handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
       event.preventDefault();
     },
@@ -45,19 +46,18 @@ const Input = (props: Props): React.ReactElement => {
     }
   } = props;
 
-  const id = `${formName}-${name.replace('_', '-')}`;
-
   return (
     <div className={classnames('form-group', className)}>
       {label ? (
         <label htmlFor={id} className={classnames('form-label', `${id}-label`)}>
           {label}
+          {required ? <span className="text-danger">*</span> : null}
         </label>
       ) : null}
       <input
         id={id}
-        type={type}
         name={name}
+        type={type}
         className={classnames(
           type === 'file' ? 'form-control-file' : 'form-control',
           isValid ? '' : 'is-invalid',

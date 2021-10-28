@@ -15,6 +15,7 @@ type Props = {
   disabled?: boolean;
   error?: string;
   defaultValue?: string | number | string[];
+  id?: string;
   handleChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   handleBlur?: (event: React.FocusEvent<HTMLSelectElement>) => void;
 };
@@ -24,7 +25,6 @@ const Select = (props: Props): React.ReactElement => {
     formName,
     name,
     children,
-    // Optional props
     value = undefined,
     className = '',
     placeholder = '',
@@ -35,6 +35,7 @@ const Select = (props: Props): React.ReactElement => {
     disabled = false,
     error = '',
     defaultValue = '',
+    id = `${formName}-${name.replace('_', '-')}`,
     handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
       event.preventDefault();
     },
@@ -43,19 +44,18 @@ const Select = (props: Props): React.ReactElement => {
     }
   } = props;
 
-  const id = `${formName}-${name.replace('_', '-')}`;
-
   return (
     <div className={classnames('form-group', className)}>
       {label ? (
         <label htmlFor={id} className={classnames('form-label', `${id}-label`)}>
           {label}
+          {required ? <span className="text-danger">*</span> : null}
         </label>
       ) : null}
       <select
         id={id}
         name={name}
-        className={classnames(isValid ? 'form-control' : 'form-control is-invalid', `${id}-input`)}
+        className={classnames('form-control', !isValid ? 'is-invalid' : '', `${id}-select`)}
         placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
